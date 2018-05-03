@@ -1,0 +1,20 @@
+{
+    "addresses": [
+        {
+            "address1": "221 B Baker Street",
+            "address2": "Marylebone",
+            "address3": "",
+            "address4": "London",
+            "country": "UK",
+            "postcode": "NW1 6XE"
+        },
+        {
+            "address1": "186 Fleet street",
+            "address2": "",
+            "address3": "",
+            "country": "UK",
+            "address4": "London",
+            "postcode": " EC4A 2HS"
+        }
+    ]
+}
