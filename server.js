@@ -35,7 +35,6 @@ app.get("/address", function(req, res){
     const collection = db.collection(ADDRESSES_COLLECTION);
 
     collection.find({}).toArray(function(err, docs) {
-        assert.equal(err, null);
         if(err){
             handleError(res, err.message, "Failed to get addresses.");
         } else {
