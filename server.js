@@ -32,17 +32,18 @@ function handleError(res, reason, message, code) {
 }
 
 app.get("/address", function(req, res){
-    db.collection(ADDRESSES_COLLECTION).find({}).toArray(function(err, docs){
+    /*db.collection(ADDRESSES_COLLECTION).find({}).toArray(function(err, docs){
         if(err){
             handleError(res, err.message, "Failed to get address.");
         } else {
             res.status(201).json(docs);
         } 
-    })
+    })*/
+    console.log("in get: ");
 });
 
 app.post("/address", function(req, res){
-    var newAddress = req.body;
+    /*var newAddress = req.body;
     newAddress.createBody = new Date();
 
     if(!(req.body.postcode || req.body.address1)){
@@ -55,7 +56,9 @@ app.post("/address", function(req, res){
             res.status(201).json(doc.ops[0]);
         }
 
-    })
+    })*/
+
+    console.log("in post: ");
     
 });
 
