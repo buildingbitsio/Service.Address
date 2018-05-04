@@ -32,13 +32,25 @@ function handleError(res, reason, message, code) {
 }
 
 app.get("/address", function(req, res){
-    db.collection(ADDRESSES_COLLECTION).find({}).toArray(function(err, docs){
+    /*db.collection(ADDRESSES_COLLECTION).find({}).toArray(function(err, docs){
         if(err){
             handleError(res, err.message, "Failed to get address.");
         } else {
             res.status(201).json(docs);
         } 
-    })
+    })*/
+    const db = client.db(dbName);
+    const collection = db.collection(ADDRESSES_COLLECTION);
+
+    collection.find({}).toArray(function(err, docs) {
+        assert.equal(err, null);
+        if(err){
+            handleError(res, err.message, "Failed to get addresses.");
+        } else {
+            console.log("Found the following records");
+            console.log(docs)
+            res.status(201).json(docs);
+        } 
 });
 
 app.post("/address", function(req, res){
