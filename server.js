@@ -51,6 +51,7 @@ app.get("/address", function(req, res){
             console.log(docs)
             res.status(201).json(docs);
         } 
+    }
 });
 
 app.post("/address", function(req, res){
