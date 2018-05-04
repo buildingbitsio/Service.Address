@@ -31,10 +31,17 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({"error": message});
 }
 
-app.get("/addresses", function(req, res){
+app.get("/address", function(req, res){
+    db.collection(ADDRESSES_COLLECTION).find({}).toArray(function(err, docs){
+        if(err){
+            handleError(res, err.message, "Failed to get address.");
+        } else {
+            res.status(201).json(docs);
+        } 
+    })
 });
 
-app.post("/addresses", function(req, res){
+app.post("/address", function(req, res){
     var newAddress = req.body;
     newAddress.createBody = new Date();
 
@@ -52,8 +59,8 @@ app.post("/addresses", function(req, res){
     
 });
 
-app.get("/addresses/:id", function(req, res){
+app.get("/address/:id", function(req, res){
 });
 
-app.put("/addresses/:id", function(req, res){
+app.put("/address/:id", function(req, res){
 });
