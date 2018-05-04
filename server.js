@@ -51,6 +51,9 @@ app.post("/address", function(req, res){
 
     const collection = db.collection(ADDRESSES_COLLECTION);
 
+    console.log("Start body...")
+    console.log(req.body)
+    console.log("End body")
     if(!(req.body.postcode || req.body.address1)){
         handleError(res, "Invalid user input", "Must provide a address1 and postcode")
     }
