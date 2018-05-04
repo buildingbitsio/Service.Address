@@ -32,13 +32,6 @@ function handleError(res, reason, message, code) {
 }
 
 app.get("/address", function(req, res){
-    /*db.collection(ADDRESSES_COLLECTION).find({}).toArray(function(err, docs){
-        if(err){
-            handleError(res, err.message, "Failed to get address.");
-        } else {
-            res.status(201).json(docs);
-        } 
-    })*/
     const db = client.db(dbName);
     const collection = db.collection(ADDRESSES_COLLECTION);
 
@@ -51,7 +44,8 @@ app.get("/address", function(req, res){
             console.log(docs)
             res.status(201).json(docs);
         } 
-    });
+    })
+});
 
 app.post("/address", function(req, res){
     var newAddress = req.body;
@@ -68,7 +62,6 @@ app.post("/address", function(req, res){
         }
 
     })
-    
 });
 
 app.get("/address/:id", function(req, res){
