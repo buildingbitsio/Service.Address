@@ -17,7 +17,7 @@ mongodb.MongoClient.connect(process.env.MONGO_URI, function(err, database){
         console.log(err);
         process.exit(1);
     }
-    db = database;
+    db = database.db("properties");
     console.log("Database connection ready");
 
     var server = app.listen(process.env.PORT || 8080, function () {
@@ -32,7 +32,6 @@ function handleError(res, reason, message, code) {
 }
 
 app.get("/address", function(req, res){
-    const db = client.db(dbName);
     const collection = db.collection(ADDRESSES_COLLECTION);
 
     collection.find({}).toArray(function(err, docs) {
