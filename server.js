@@ -47,7 +47,6 @@ app.get("/address", function(req, res){
 
 app.post("/address", function(req, res){
     var newAddress = req.body;
-    newAddress.createBody = new Date();
 
     const collection = db.collection(ADDRESSES_COLLECTION);
 
