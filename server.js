@@ -49,10 +49,12 @@ app.post("/address", function(req, res){
     var newAddress = req.body;
     newAddress.createBody = new Date();
 
+    const collection = db.collection(ADDRESSES_COLLECTION);
+
     if(!(req.body.postcode || req.body.address1)){
         handleError(res, "Invalid user input", "Must provide a address1 and postcode")
     }
-    db.collection(ADDRESSES_COLLECTION).insertOne(newAddres, function(err, doc){
+    collection.insertOne(newAddress, function(err, doc){
         if(err){
             handleError(res, err.message, "Failed to create new address.");
         } else {
