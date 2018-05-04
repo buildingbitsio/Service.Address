@@ -1,57 +1,59 @@
-'use strict'
-//const express = require('express')
-//const morgan = require('morgan')
+var express = require("Express");
+var path = require("path");
+var bodyParser = require("body-parser");
+var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
 
-//const app = express();
+var ADDRESSES_COLLECTION = "Addresses";
 
-//app.use(morgan('dev'));
+var app = express();
+app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.json());
 
-/*app.get('/hello/:name', (req, res) =>{
-  res.status(200).json({'hello':req.params.name});
-})
+var db;
 
-app.listen(60701, ()=> console.log('Ready.'));*/
+mongodb.MongoClient.connect(process.env.MONGODB_URI, function(err, database){
+    if(err){
+        console.log(err);
+        process.exit(1);
+    }
+    db = database;
+    console.log("Database connection ready");
 
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
- 
-var cloud = true;
- 
-var mongodbHost = '127.0.0.1';
-var mongodbPort = '27017';
- 
-var authenticate ='';
-//cloud
-if (cloud) {
- mongodbHost = 'ds014578.mlab.com';
- mongodbPort = '14578';
- authenticate = 'bbuser:Qwerty123@'
+    var server = app.listen(process.env.PORT || 8080, function () {
+        var port = server.address().port;
+        console.log("App now running on port", port);
+    })
+});
+
+function handleError(res, reason, message, code) {
+    console.log("ERROR: " + reason);
+    res.status(code || 500).json({"error": message});
 }
- 
-var mongodbDatabase = 'properties';
- 
-// connect string for mongodb server running locally, connecting to a database called test
-var url = 'mongodb://'+authenticate+mongodbHost+':'+mongodbPort + '/' + mongodbDatabase;
- 
- 
-// find and CRUD: http://mongodb.github.io/node-mongodb-native/2.0/tutorials/crud_operations/
-// aggregation: http://mongodb.github.io/node-mongodb-native/2.0/tutorials/aggregation/
- 
-MongoClient.connect(url, function(err, client) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
 
-  const db = client.db("properties");
+app.get("/addresses", function(req, res){
+});
 
-  const collection = db.collection('Addresses');
-  // Find some documents
-  collection.find({}).toArray(function(err, docs) {
-    assert.equal(err, null);
-    console.log("Found the following records");
-    console.log(docs);
-  });
+app.post("/addresses", function(req, res){
+    var newAddress = req.body;
+    newAddress.createBody = new Date();
 
+    if(!(req.body.postcode || req.body.address1)){
+        handleError(res, "Invalid user input", "Must provide a address1 and postcode")
+    }
+    db.collection(ADDRESSES_COLLECTION).insertOne(newAddres, function(err, doc){
+        if(err){
+            handleError(res, err.message, "Failed to create new address.");
+        } else {
+            res.status(201).json(doc.ops[0]);
+        }
 
+    })
+    
+});
 
-  client.close();
+app.get("/addresses/:id", function(req, res){
+});
+
+app.put("/addresses/:id", function(req, res){
 });
